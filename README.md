@@ -28,14 +28,14 @@ A SwiftUI stacked toast library for iOS. Toasts stack on top of each other, use 
 
 1. **File → Add Package Dependencies…**
 2. Enter `https://github.com/Rk1821389/SToasts`
-3. Set the dependency rule to **Branch → `develop`** (there is no tagged release yet).
+3. Set the dependency rule to **Up to Next Major Version** from `1.0.0`.
 4. Add the **StackedToasts** product to your app target.
 
 ### Package.swift
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Rk1821389/SToasts", branch: "develop")
+    .package(url: "https://github.com/Rk1821389/SToasts", from: "1.0.0")
 ],
 targets: [
     .target(name: "MyApp", dependencies: ["StackedToasts"])

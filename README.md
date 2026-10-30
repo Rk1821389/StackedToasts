@@ -10,6 +10,20 @@ A SwiftUI stacked toast library for iOS. Toasts stack on top of each other, use 
 
 > Based on the tutorial by **Kavsoft**: [Stacked Toasts in SwiftUI](https://www.youtube.com/watch?v=4cLWzZ7_0Bk). All credit for the original idea and approach goes to Kavsoft.
 
+## Preview
+
+Recorded on iOS 27 (Liquid Glass).
+
+<p align="center">
+  <img src="Docs/media/demo.gif" alt="StackedToasts demo" width="280">
+</p>
+
+[Watch the full recording (mp4)](Docs/media/demo.mp4)
+
+| Stacked toasts | Swipe to reveal button | Auto-dismiss countdown (bar) |
+|:---:|:---:|:---:|
+| <img src="Docs/media/stack.png" width="220"> | <img src="Docs/media/swipe-button.png" width="220"> | <img src="Docs/media/countdown-bar.png" width="220"> |
+
 ## Requirements
 
 - iOS 17.0+

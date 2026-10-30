@@ -18,10 +18,15 @@
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
+/* Begin PBXBuildFile section */
+		2CE69D6A3093D6100070E192 /* StackedToasts in Frameworks */ = {isa = PBXBuildFile; productRef = 2CE69D693093D6100070E192 /* StackedToasts */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		2CE69D453093D6100070E192 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				2CE69D6A3093D6100070E192 /* StackedToasts in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -60,6 +65,9 @@
 				2CE69D4A3093D6100070E192 /* SToasts */,
 			);
 			name = SToasts;
+			packageProductDependencies = (
+				2CE69D693093D6100070E192 /* StackedToasts */,
+			);
 			productName = SToasts;
 			productReference = 2CE69D483093D6100070E192 /* SToasts.app */;
 			productType = "com.apple.product-type.application";
@@ -87,6 +95,9 @@
 				Base,
 			);
 			mainGroup = 2CE69D3F3093D6100070E192;
+			packageReferences = (
+				2CE69D683093D6100070E192 /* XCLocalSwiftPackageReference ".." */,
+			);
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2CE69D493093D6100070E192 /* Products */;
@@ -318,6 +329,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		2CE69D683093D6100070E192 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2CE69D693093D6100070E192 /* StackedToasts */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = StackedToasts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2CE69D403093D6100070E192 /* Project object */;
 	validationLevel = 1;

@@ -41,7 +41,7 @@ Recorded on iOS 27 (Liquid Glass).
 ### Xcode
 
 1. **File → Add Package Dependencies…**
-2. Enter `https://github.com/Rk1821389/SToasts`
+2. Enter `https://github.com/Rk1821389/StackedToasts`
 3. Set the dependency rule to **Up to Next Major Version** from `1.0.0`.
 4. Add the **StackedToasts** product to your app target.
 
@@ -49,7 +49,7 @@ Recorded on iOS 27 (Liquid Glass).
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Rk1821389/SToasts", from: "1.0.0")
+    .package(url: "https://github.com/Rk1821389/StackedToasts", from: "1.0.0")
 ],
 targets: [
     .target(name: "MyApp", dependencies: ["StackedToasts"])

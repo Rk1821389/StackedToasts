@@ -31,6 +31,11 @@ public struct ToastStyle {
     public var symbolColor: Color? = nil
     public var symbolUsesGradient: Bool = true
     public var lineLimit: Int? = 1
+    /// Applied on top of the fonts above, e.g. `.rounded` or `.serif`. `nil` keeps the font's own design.
+    public var fontDesign: Font.Design? = nil
+    /// `nil` keeps the weight of the font.
+    public var titleWeight: Font.Weight? = nil
+    public var messageWeight: Font.Weight? = nil
 
     // MARK: Background
     /// Strength of the white (light) / black (dark) tint over the glass.
@@ -87,6 +92,13 @@ public struct ToastStyle {
     public init() {}
 
     public static let `default` = ToastStyle()
+
+    /// Uses a custom font (PostScript or family name) for the title and message.
+    /// Sizes scale with Dynamic Type relative to `.callout` / `.caption2`.
+    public mutating func setFont(_ name: String, titleSize: CGFloat = 16, messageSize: CGFloat = 11) {
+        titleFont = .custom(name, size: titleSize, relativeTo: .callout)
+        messageFont = .custom(name, size: messageSize, relativeTo: .caption2)
+    }
 }
 
 public enum ToastSwipeBehavior {

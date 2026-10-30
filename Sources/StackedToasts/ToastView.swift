@@ -48,16 +48,19 @@ struct ToastView: View {
             VStack(alignment: .leading, spacing: style.textSpacing) {
                 Text(toast.title)
                     .font(style.titleFont)
+                    .fontWeight(style.titleWeight)
                     .foregroundStyle(style.titleColor)
 
                 if let message = toast.message {
                     Text(message)
                         .font(style.messageFont)
+                        .fontWeight(style.messageWeight)
                         .foregroundStyle(style.messageColor)
                 }
             }
             .lineLimit(style.lineLimit)
         }
+        .fontDesign(style.fontDesign)
         .padding(.horizontal, style.horizontalPadding)
         .frame(maxWidth: style.maxWidth, alignment: .leading)
         .frame(height: style.height)

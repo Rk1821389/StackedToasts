@@ -67,13 +67,21 @@ RootView().toastStyle { $0.glassTintOpacity = 0.4 }
 | Group | Options |
 |---|---|
 | Layout | `height`, `maxWidth`, `horizontalPadding`, `contentSpacing`, `textSpacing`, `shape`, `bottomPadding` |
-| Typography & color | `symbolFont`, `titleFont`, `messageFont`, `titleColor`, `messageColor`, `symbolColor`, `symbolUsesGradient`, `lineLimit` |
+| Typography & color | `symbolFont`, `titleFont`, `messageFont`, `titleColor`, `messageColor`, `symbolColor`, `symbolUsesGradient`, `lineLimit`, `fontDesign`, `titleWeight`, `messageWeight`, `setFont(_:)` |
 | Background | `usesGlass`, `glassTintOpacity`, `glassTintColor`, `solidBackground`, `showsTintGradient`, `topGradientOpacity`, `middleGradientOpacity` |
 | Shadow | `shadowColor`, `shadowRadius`, `shadowOffset` |
 | Stack | `maxStackedBehind`, `stackOffset`, `stackScaleStep`, `showsEdgeBlur` |
 | Auto dismiss | `autoDismissEnabled`, `autoDismissIndicator` (`.ring` / `.bar` / `.none`), `indicatorColor`, `indicatorLineWidth` |
 | Interaction | `swipeBehavior` (`.button` / `.direct` / `.disabled`), `swipeSymbol`, `swipeTint`, `allowsFullSwipe` |
 | Animation | `animation`, `insertion`, `removal` |
+
+### Fonts
+
+```swift
+.toastStyle { $0.titleFont = .system(size: 17, weight: .semibold) }
+.toastStyle { $0.fontDesign = .rounded; $0.titleWeight = .bold }
+.toastStyle { $0.setFont("Avenir Next") }   // custom font, scales with Dynamic Type
+```
 
 ### Swipe: button or direct
 

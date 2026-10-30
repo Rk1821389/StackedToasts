@@ -41,8 +41,10 @@ private struct ToastOverlayModifier: ViewModifier {
     var alignment: Alignment
 
     func body(content: Content) -> some View {
-        content.overlay(alignment: alignment) {
-            StackedToasts(toasts: $center.toasts)
-        }
+        content
+            .environment(center)
+            .overlay(alignment: alignment) {
+                StackedToasts(toasts: $center.toasts)
+            }
     }
 }

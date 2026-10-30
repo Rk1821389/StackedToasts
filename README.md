@@ -10,7 +10,14 @@ Based on the tutorial by **Kavsoft**: [Stacked Toasts in SwiftUI](https://www.yo
 
 ## Requirements
 
-iOS 27+, Xcode 27+ (uses `glassEffect`, `swipeActions` on any view, `safeAreaBar`).
+iOS 17+ (Xcode 27+ to build). Newer OS features are used when available and fall back gracefully:
+
+| OS | Background | Swipe button | Edge blur |
+|---|---|---|---|
+| iOS 27+ | Liquid Glass | native `swipeActions` | yes |
+| iOS 26 | Liquid Glass | custom drag | yes |
+| iOS 18 | blurred material | custom drag | no |
+| iOS 17 | blurred material, linear tint gradient | custom drag | no |
 
 ## Installation
 
@@ -64,8 +71,29 @@ RootView().toastStyle { $0.glassTintOpacity = 0.4 }
 | Background | `usesGlass`, `glassTintOpacity`, `glassTintColor`, `solidBackground`, `showsTintGradient`, `topGradientOpacity`, `middleGradientOpacity` |
 | Shadow | `shadowColor`, `shadowRadius`, `shadowOffset` |
 | Stack | `maxStackedBehind`, `stackOffset`, `stackScaleStep`, `showsEdgeBlur` |
-| Interaction | `swipeSymbol`, `swipeTint`, `allowsFullSwipe` |
+| Auto dismiss | `autoDismissEnabled`, `autoDismissIndicator` (`.ring` / `.bar` / `.none`), `indicatorColor`, `indicatorLineWidth` |
+| Interaction | `swipeBehavior` (`.button` / `.direct` / `.disabled`), `swipeSymbol`, `swipeTint`, `allowsFullSwipe` |
 | Animation | `animation`, `insertion`, `removal` |
+
+### Swipe: button or direct
+
+```swift
+.toastStyle { $0.swipeBehavior = .direct }   // swipe away to remove, no button
+.toastStyle { $0.swipeBehavior = .button }   // default: swipe reveals a button
+```
+
+### Auto dismiss
+
+Set it per toast; `nil` keeps the toast until the user dismisses it. A countdown ring (or bar) animates while it waits.
+
+```swift
+toasts.show(.warning("Low battery", autoDismiss: 6))     // hides after 6s
+toasts.show(.info("Update available", autoDismiss: nil)) // stays
+toasts.show(Toast(title: "Custom", autoDismissInterval: 2))
+
+.toastStyle { $0.autoDismissIndicator = .bar }   // or .none
+.toastStyle { $0.autoDismissEnabled = false }    // turn auto dismiss off everywhere
+```
 
 Built-in presets: `.success`, `.error`, `.warning`, `.info` (each takes a custom `tint`).
 

@@ -43,112 +43,49 @@ public struct StackedToasts: View {
         .scrollClipDisabled()
         .frame(height: containerHeight)
         .offset(y: slack - max(min(CGFloat(toasts.count - 1) * slack / CGFloat(behind), slack), 0))
-        .swipeActionsContainer()
+        .modifier(SwipeActionsContainer(enabled: style.swipeBehavior == .button))
         .background {
-            if style.showsEdgeBlur {
-                ScrollView(.vertical) { }
-                    .frame(height: 0)
-                    .allowsHitTesting(false)
-                    .safeAreaBar(edge: .bottom, spacing: 0) {
-                        Text(" ")
-                            .frame(maxWidth: .infinity)
-                            .frame(height: containerHeight)
-                    }
-                    .scrollEdgeEffectStyle(.soft, for: .bottom)
-                    .opacity(toasts.isEmpty ? 0 : 1)
-            }
+            EdgeBlur(isVisible: style.showsEdgeBlur && !toasts.isEmpty, height: containerHeight)
         }
         .animation(style.animation, value: toasts)
         .padding(.bottom, style.bottomPadding)
     }
 }
 
-struct ToastView: View {
-    var toast: Toast
-    var style: ToastStyle
-    var onDismiss: () -> Void
-    @Environment(\.colorScheme) private var colorScheme
+// MARK: - Availability wrappers
 
-    var body: some View {
-        HStack(spacing: style.contentSpacing) {
-            if let symbol = toast.symbol {
-                Image(systemName: symbol)
-                    .font(style.symbolFont)
-                    .foregroundStyle(symbolStyle)
-            }
-
-            VStack(alignment: .leading, spacing: style.textSpacing) {
-                Text(toast.title)
-                    .font(style.titleFont)
-                    .foregroundStyle(style.titleColor)
-
-                if let message = toast.message {
-                    Text(message)
-                        .font(style.messageFont)
-                        .foregroundStyle(style.messageColor)
-                }
-            }
-            .lineLimit(style.lineLimit)
-        }
-        .padding(.horizontal, style.horizontalPadding)
-        .frame(maxWidth: style.maxWidth, alignment: .leading)
-        .frame(height: style.height)
-        .background { tintGradient }
-        .modifier(ToastBackground(style: style, tint: glassTint))
-        .contentShape(style.shape.shape)
-        .compositingGroup()
-        .shadow(color: style.shadowColor, radius: style.shadowRadius, x: style.shadowOffset.width, y: style.shadowOffset.height)
-        .swipeActions(edge: .trailing, allowsFullSwipe: style.allowsFullSwipe) {
-            Button(action: onDismiss) {
-                Image(systemName: style.swipeSymbol)
-            }
-            .tint(style.swipeTint ?? toast.tint)
-        }
-        .task {
-            guard let interval = toast.autoDismissInterval else { return }
-            try? await Task.sleep(for: .seconds(interval))
-            if !Task.isCancelled { onDismiss() }
-        }
-    }
-
-    private var symbolStyle: AnyShapeStyle {
-        let color = style.symbolColor ?? toast.tint
-        return style.symbolUsesGradient ? AnyShapeStyle(color.gradient) : AnyShapeStyle(color)
-    }
-
-    private var glassTint: Color {
-        (style.glassTintColor ?? (colorScheme == .dark ? .black : .white)).opacity(style.glassTintOpacity)
-    }
+/// iOS 27+: lets `swipeActions` work on a plain view.
+private struct SwipeActionsContainer: ViewModifier {
+    var enabled: Bool
 
     @ViewBuilder
-    private var tintGradient: some View {
-        if style.showsTintGradient {
-            let row1 = Array(repeating: toast.tint.opacity(style.topGradientOpacity), count: 3)
-            let row2 = Array(repeating: toast.tint.opacity(style.middleGradientOpacity), count: 3)
-            let row3 = Array(repeating: Color.clear, count: 3)
-            MeshGradient(
-                width: 3, height: 3,
-                points: [
-                    [0, 0], [0.5, 0], [1, 0],
-                    [0, 0.5], [0.5, 0.5], [1, 0.5],
-                    [0, 1], [0.5, 1], [1, 1]
-                ],
-                colors: row1 + row2 + row3
-            )
-            .clipShape(style.shape.shape)
+    func body(content: Content) -> some View {
+        if enabled, #available(iOS 27, *) {
+            content.swipeActionsContainer()
+        } else {
+            content
         }
     }
 }
 
-private struct ToastBackground: ViewModifier {
-    var style: ToastStyle
-    var tint: Color
+/// iOS 26+: soft blur fading content under the stack.
+private struct EdgeBlur: View {
+    var isVisible: Bool
+    var height: CGFloat
 
-    func body(content: Content) -> some View {
-        if style.usesGlass {
-            content.glassEffect(.regular.tint(tint), in: style.shape.shape)
-        } else {
-            content.background(style.solidBackground, in: style.shape.shape)
+    @ViewBuilder
+    var body: some View {
+        if #available(iOS 26, *) {
+            ScrollView(.vertical) { }
+                .frame(height: 0)
+                .allowsHitTesting(false)
+                .safeAreaBar(edge: .bottom, spacing: 0) {
+                    Text(" ")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: height)
+                }
+                .scrollEdgeEffectStyle(.soft, for: .bottom)
+                .opacity(isVisible ? 1 : 0)
         }
     }
 }
